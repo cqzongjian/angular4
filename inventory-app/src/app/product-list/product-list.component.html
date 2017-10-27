@@ -1,3 +1,7 @@
 <div class="ui items">
-  <app-product *ngFor="let prodcut of products" [product]="prodcut"></app-product>
+  <app-product
+    *ngFor="let prodcut of productList"
+    [product]="prodcut"
+    (click)="clicked(prodcut)"
+    [class.selected]="isSelected(prodcut)"></app-product>
 </div>

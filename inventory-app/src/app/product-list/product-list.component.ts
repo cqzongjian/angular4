@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from "../product/product.model";
 
 @Component({
@@ -7,10 +7,12 @@ import {Product} from "../product/product.model";
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  products: Product[];
+  @Input() productList: Product[];
+  @Output() onProductSelected: EventEmitter<Product>;
+  private currentProduct: Product;
 
   constructor() {
-    this.products = [
+    /*this.products = [
       new Product(
         'MYSHOES',
         'Black Running Shoes',
@@ -29,7 +31,21 @@ export class ProductListComponent implements OnInit {
         '/assets/images/products/black-hat.jpg',
         ['Men', 'Accessories', 'Hats'],
         29.99)
-    ];
+    ];*/
+
+    this.onProductSelected = new EventEmitter();
+  }
+
+  clicked(product: Product): void {
+    this.currentProduct = product;
+    this.onProductSelected.emit(product);
+  }
+
+  isSelected(product: Product): boolean {
+    if (!product || !this.currentProduct) {
+      return false;
+    }
+    return product.sku === this.currentProduct.sku;
   }
 
   ngOnInit() {
